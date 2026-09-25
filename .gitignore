@@ -1,0 +1,20 @@
+# Raw dataset
+data/raw/*
+!data/raw/.gitkeep
+
+# Power BI temporary files
+*.tmp
+*.temp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+
+# Environment
+.env
+.venv/
+venv/
