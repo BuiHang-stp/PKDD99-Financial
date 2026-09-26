@@ -38,6 +38,15 @@ In the original challenge, the bank states the problem this way: managers have o
 
 ---
 
+## Project Scope
+
+The analysis is framed as requests from business teams (**Retail**, **Credit**, **Card Product**). The project covers:
+
+- organizing the source data in PostgreSQL in three layers (**bronze → silver → gold**);
+- cleaning, standardizing and modelling the data for analysis;
+- answering the three analysis questions below, and time-boxed ad-hoc questions;
+- delivering results as **SQL tables, a memo, target lists and Power BI dashboards**.
+
 ## Analysis
 
 | # | Question | Business use | Output |
@@ -46,17 +55,9 @@ In the original challenge, the bank states the problem this way: managers have o
 | 2 | Does pre-loan account behaviour signal elevated repayment risk? | Credit risk / early warning | Memo + watch list |
 | 3 | Which healthy, active clients do not currently hold a card? | Card cross-sell campaign | Target list |
 
-Ad-hoc questions answered with the same data are kept in `docs/adhoc/`.
-
 ---
 
-## Role
-
-Act as a Data Analyst in the bank's analytics team. Build a PostgreSQL warehouse with a Medallion architecture (bronze → silver → gold), answer the three analysis questions above, and handle short ad-hoc questions from business teams (Retail, Credit, Card Product).
-
----
-
-## Ad-hoc Query List (Basic → Advanced)
+## Query List (Basic → Advanced)
 
 ### Basic
 
