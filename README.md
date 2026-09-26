@@ -1,25 +1,18 @@
 # PKDD99-Financial
 
-> 🌱 **Work in progress** — started Oct 2026
+> 🌱 **Work in progress** — started Sep 2026
 
-<!-- 1–2 sentences:
-What business problem does this project explore?
-What data is used?
-What is the analytical workflow?
-Write after initial data exploration. -->
+Analysis of real, anonymized data from a Czech bank (1993–1998) to understand how customers use their accounts, whether account behaviour before a loan signals default risk, and which customers to offer a card to. Built with PostgreSQL (bronze → silver → gold) and Power BI.
+
+Full business context and analysis plan: [context.md](context.md)
 
 ## Business Questions
 
-<!--
-Write 3 focused analytical questions in your own words.
-For each question, think:
-- Who needs this information?
-- What decision could it support?
--->
-
-1.
-2.
-3.
+| # | Question | Business use |
+|---|---|---|
+| 1 | How actively do customers use their accounts, month by month? | Retail banking performance tracking |
+| 2 | Does account behaviour before a loan signal a higher risk of default? | Credit risk / early warning |
+| 3 | Which healthy, active customers have no card yet? | Card cross-sell campaign |
 
 ## Data
 
@@ -101,7 +94,8 @@ PostgreSQL · SQL · Power BI · DAX
 
 ---
 ## 💬 Thank you for reading this far!     
-I'm always open to Data Analyst opportunities, as well as any feedback that helps the project improve. Feel free to reach out.
+I'm always open to Data Analyst opportunities, as well as any feedback that helps the project improve.      
+Feel free to reach out.
 
 **Bùi Thu Hằng** — Data Analyst           
 Reach me via [LinkedIn](https://www.linkedin.com/in/buithuhang/) or [Email - buihang.work@gmail.com](https://mail.google.com/mail/?view=cm&fs=1&to=buihang.work@gmail.com).

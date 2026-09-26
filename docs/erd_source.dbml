@@ -1,0 +1,120 @@
+Project PKDD99_Source_Model {
+  database_type: 'PostgreSQL'
+  Note: '''
+  PKDD'99 Financial — Logical Source ERD
+
+  Purpose:
+  - Represent the 8 original source relations at logical level.
+  - Show PK/FK structure and source relationships.
+  - Keep raw storage/parsing details in docs/raw_data_inspection.md.
+  - Categorical-code meanings are documented in docs/czech_mapping.md.
+
+  To verify after load:
+  1. Whether disp.client_id is unique (client ↔ disp may be 1:1).
+  2. Whether loan.account_id is unique (account ↔ loan may be 1:0..1).
+  '''
+}
+
+Table district {
+  A1 int [pk, not null, note: 'district_id']
+  A2 varchar [note: 'district name']
+  A3 varchar [note: 'region']
+  A4 int [note: 'number of inhabitants']
+  A5 int [note: 'municipalities with inhabitants < 499']
+  A6 int [note: 'municipalities with inhabitants 500-1999']
+  A7 int [note: 'municipalities with inhabitants 2000-9999']
+  A8 int [note: 'municipalities with inhabitants > 10000']
+  A9 int [note: 'number of cities']
+  A10 decimal [note: 'ratio of urban inhabitants']
+  A11 int [note: 'average salary']
+  A12 decimal [note: 'unemployment rate 1995']
+  A13 decimal [note: 'unemployment rate 1996']
+  A14 int [note: 'entrepreneurs per 1000 inhabitants']
+  A15 int [note: 'committed crimes 1995']
+  A16 int [note: 'committed crimes 1996']
+}
+
+Table client {
+  client_id int [pk, not null]
+  birth_number varchar [note: 'encoded birth date and sex']
+  district_id int [not null, note: 'residence district']
+}
+
+Table disp {
+  disp_id int [pk, not null]
+  client_id int [not null]
+  account_id int [not null]
+  type varchar [note: 'OWNER or DISPONENT; only OWNER can issue permanent orders and apply for loans; see czech_mapping.md']
+}
+
+Table card {
+  card_id int [pk, not null]
+  disp_id int [not null]
+  type varchar [note: 'junior, classic or gold; see czech_mapping.md']
+  issued date [note: 'stored as YYMMDD 00:00:00 in raw file; time component is constant']
+}
+
+Table account {
+  account_id int [pk, not null]
+  district_id int [not null, note: 'branch district']
+  frequency varchar [note: 'statement frequency; see czech_mapping.md']
+  date date [note: 'stored as YYMMDD in raw file']
+}
+
+Table trans {
+  trans_id int [pk, not null]
+  account_id int [not null]
+  date date [note: 'stored as YYMMDD in raw file']
+  type varchar [note: 'transaction direction; see czech_mapping.md']
+  operation varchar [note: 'transaction mode; see czech_mapping.md']
+  amount decimal
+  balance decimal
+  k_symbol varchar [note: 'transaction characterization; see czech_mapping.md']
+  bank varchar [note: 'counterparty bank code; external entity, not a FK']
+  account varchar [note: 'counterparty account at another bank; external identifier, not a FK']
+}
+
+Table "order" {
+  order_id int [pk, not null]
+  account_id int [not null]
+  bank_to varchar [note: 'recipient bank; external entity, not a FK']
+  account_to varchar [note: 'recipient account; external identifier, not a FK']
+  amount decimal
+  k_symbol varchar [note: 'payment characterization; see czech_mapping.md']
+}
+
+Table loan {
+  loan_id int [pk, not null]
+  account_id int [not null]
+  date date [note: 'loan grant date; stored as YYMMDD in raw file']
+  amount int
+  duration int [note: 'loan duration in months']
+  payments decimal [note: 'monthly payment']
+  status varchar [note: 'A, B, C or D; see czech_mapping.md']
+}
+
+Ref: client.district_id > district.A1
+Ref: account.district_id > district.A1
+Ref: disp.client_id > client.client_id
+Ref: disp.account_id > account.account_id
+Ref: card.disp_id > disp.disp_id
+Ref: trans.account_id > account.account_id
+Ref: "order".account_id > account.account_id
+Ref: loan.account_id > account.account_id
+
+TableGroup customer {
+  client
+  disp
+  card
+}
+
+TableGroup account_activity {
+  account
+  trans
+  "order"
+  loan
+}
+
+TableGroup reference {
+  district
+}
