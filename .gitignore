@@ -1,6 +1,8 @@
-# Raw dataset
+# Raw dataset and note
 data/raw/*
 !data/raw/.gitkeep
+*.zip
+note/
 
 # Power BI temporary files
 *.tmp
