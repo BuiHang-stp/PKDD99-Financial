@@ -61,45 +61,43 @@ The analysis is framed as requests from business teams (**Retail**, **Credit**, 
 
 ### Basic
 
-1. **Q1: Number of clients, accounts, loans, cards** (`count`)
+**Q1: Number of clients, accounts, loans, cards** (`count`)
 
-2. **Q2: Loans by status A / B / C / D** (`group-by`, `share-of-total`)
+**Q2: Loans by status A / B / C / D** (`group-by`, `share-of-total`)
 
-3. **Q3: Accounts by statement frequency** (`group-by`, `case-when`)
+**Q3: Accounts by statement frequency** (`group-by`, `case-when`)
 
-4. **Q4: Client gender and age distribution** (`substring`, `make-date`, `case-when`)
+**Q4: Client gender and age distribution** (`substring`, `make-date`, `case-when`)
 
-5. **Q5: Transaction count and amount by type and operation** (`group-by`, `sum`)
+**Q5: Transaction count and amount by type and operation** (`group-by`, `sum`)
 
 ### Intermediate
 
-6. **Q6: Share of accounts with a loan, a card, a standing order** (`left-join`, `count-distinct`)
+**Q6: Share of accounts with a loan, a card, a standing order** (`left-join`, `count-distinct`)
 
-7. **Q7: Accounts shared by an owner and a user** (`group-by`, `having`)
+**Q7: Accounts shared by an owner and a user** (`group-by`, `having`)
 
-8. **Q8: Money in and out per month** (`date-trunc`, `conditional-sum`)
+**Q8: Money in and out per month** (`date-trunc`, `conditional-sum`)
 
-9. **Q9: Problematic-loan rate by duration and amount band, with sample size** (`case-when`, `ratio`)
+**Q9: Problematic-loan rate by duration and amount band, with sample size** (`case-when`, `ratio`)
 
-10. **Q10: Accounts that ever paid penalty interest** (`filter`, `count-distinct`)
+**Q10: Accounts that ever paid penalty interest** (`filter`, `count-distinct`)
 
 ### Advanced
 
-11. **Q11: Monthly active accounts and active rate, month over month** (`generate-series`, `cte`, `lag`)
+**Q11: Monthly active accounts and active rate, month over month** (`generate-series`, `cte`, `lag`)
 
-12. **Q12: End-of-month balance per account, carried forward in months with no transactions** (`window`, `row-number`, `carry-forward`)
+**Q12: End-of-month balance per account, carried forward in months with no transactions** (`window`, `row-number`, `carry-forward`)
 
-13. **Q13: Dormant accounts (no client activity for 3+ months)** (`window`, `gaps-and-islands`)
+**Q13: Dormant accounts (no client activity for 3+ months)** (`window`, `gaps-and-islands`)
 
-14. **Q14: Account behaviour in the 6 months before each loan, healthy vs problematic loans** (`date-window-join`, `cte`, `no-leakage`)
+**Q14: Account behaviour in the 6 months before each loan, healthy vs problematic loans** (`date-window-join`, `cte`, `no-leakage`)
 
-15. **Q15: Active, healthy clients with no card, split into priority tiers** (`anti-join`, `ntile`)
+**Q15: Active, healthy clients with no card, split into priority tiers** (`anti-join`, `ntile`)
 
 ---
 
 ## Known Constraints
-
-- Only 682 loans; the number of problematic loans is small and will be confirmed during scope checking. Credit findings are reported with sample sizes and treated as signals, not as a validated predictive model.
 
 - The dataset does not include account closing dates, days-past-due measures, credit bureau data, or other modern credit-risk variables.
 
